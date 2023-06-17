@@ -1,0 +1,25 @@
+name: Android CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      pkgs:
+        description: 'PKG names to build, include == version syms'
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: pip whell build
+      run: |
+        python3 -m pip wheel '{{ inputs.pkgs }}'
